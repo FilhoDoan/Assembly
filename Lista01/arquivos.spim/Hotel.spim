@@ -1,0 +1,46 @@
+.data
+.text
+main:
+    #valorpromocao = $t0
+    li $v0,5
+    syscall
+    move $t0, $v0
+
+    #valor aumento diaria = $t1
+    li $v0,5
+    syscall
+    move $t1, $v0
+
+    #valor dia de chegada = $t2
+    li $v0,5
+    syscall
+    move $t2, $v0
+
+    addi $t3,$zero,1
+    
+    sub $t4, $t2,$t3
+
+    mul $s0, $t4,$t1
+    
+    add $s1,$s0,$t0  #Calculo Pagamento
+
+    addi $s2, $zero, 31 
+
+    sub $s3, $s2,$t2 #diarias
+
+    addi $t5, $s3,1
+
+    mul $s4, $s1,$t5
+
+    li $v0,1
+    move $a0,$s4
+    syscall
+
+    li $v0,10
+    syscall
+    
+
+    
+
+ 
+
