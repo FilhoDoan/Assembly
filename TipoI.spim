@@ -1,0 +1,16 @@
+.data
+
+.text
+main:
+    li $v0,5             #Lemos um inteiro
+    syscall
+    move $t0,$v0        #move o inteiro pro $t0
+
+    addi $t1,$t0,4      #faz adicção do inteiro lido + 4
+
+    li $v0,1            # imprime um inteiro
+    move $a0,$t1        # move o inteiro lido $t1 para o argumento $a0 e imprime
+    syscall
+
+    li,$v0,10           #Encerra o programa
+    syscall
