@@ -1,0 +1,29 @@
+.data
+msgNotEqual: .asciiz "Numeros não são iguais"
+msgEqual: .asciiz "São iguais"
+
+.text
+main: 
+    li $v0,5
+    syscall
+    move $t0,$v0
+
+    li $v0,5
+    syscall
+    move $t1,$v0
+
+    bne $t0,$t1, branchONnotEqual
+    li $v0,4
+    la $a0, msgEqual
+    syscall
+    j exit
+    
+    branchONnotEqual: 
+        li $v0,4
+        la $a0,msgNotEqual
+        syscall
+
+    exit: 
+        li $v0,10
+        syscall
+    

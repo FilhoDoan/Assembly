@@ -1,0 +1,27 @@
+.data
+msgEqualORGreater: .asciiz "É maior ou igual"
+msgNotGreater: .asciiz "É menor"
+.text
+
+main:
+    li $v0,5
+    syscall
+    move $t0, $v0
+
+    li $v0,5
+    syscall
+    move $t1, $v0
+
+    bge $t0,$t1, bGreaterThanEqual
+    li $v0,4
+    la $a0,msgNotGreater
+    syscall
+    j exit
+
+    bGreaterThanEqual:
+        li $v0,4
+        la $a0,msgEqualORGreater
+        syscall
+    exit:
+        li $v0,10
+        syscall

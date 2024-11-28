@@ -1,0 +1,21 @@
+
+.data
+
+.text
+    main:
+    
+# calcula a soma entre os operandos addu 
+# verifica os sinais dos operandos xor
+# se for diferente então n houve overflow = 1 , caso iguais = 0 então houver overflow
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+
+
+
+    
+

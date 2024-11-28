@@ -1,0 +1,51 @@
+.data
+    output_true: .asciiz "2\n"
+    output_false: .asciiz "1\n"
+    newline: .asciiz "\n"
+
+.text
+    main:
+        # Leitura do número de operações (N)
+        li $v0, 5
+        syscall
+        move $t0, $v0 # $t0 = N
+
+    loop:
+        # Leitura dos valores X e Y na mesma linha
+        li $v0, 8
+        la $a0, buffer
+        li $a1, 8
+        syscall
+        move $t1, $a0 # $t1 = x
+
+        # Calcula a operação XOR (1 se falso, 2 se verdadeiro)
+        xor $t2, $t1, $t1
+
+        # Imprime o resultado
+        beq $t2, $zero, falseLabel
+        li $v0, 4
+        la $a0, output_true
+        syscall
+        j end_if
+
+    falseLabel:
+        li $v0, 4
+        la $a0, output_false
+        syscall
+
+    end_if:
+        # Impressão de nova linha
+        li $v0, 4
+        la $a0, newline
+        syscall
+
+        # Atualização do contador e loop
+        addi $t0, $t0, -1
+        bnez $t0, loop
+
+        # Fim do programa
+        li $v0, 10
+        syscall
+
+    .data
+    buffer: .space 8

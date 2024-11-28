@@ -1,0 +1,48 @@
+.data
+	aviso: .asciiz "overflow"
+	quebralinha: .asciiz "\n"
+.text
+main:
+	li   $v0, 5
+	syscall
+	add  $t0, $zero, $v0
+	li   $v0, 5
+	syscall
+	add  $t1, $zero, $v0
+	li   $v0, 5
+	syscall
+	add  $t2, $zero, $v0
+	beq  $t0, $zero, dector
+	addu $t3, $t1, $t2
+	xor  $t4, $t1, $t2  
+	slt  $t4, $t4, $zero
+	bne  $t4, $zero, nao_overflow
+	xor  $t4, $t3, $t2
+	slt  $t4, $t4, $zero
+	bne  $t4, $zero, comoverflow
+	j    nao_overflow
+	
+dector:
+	nor  $t4, $t1, $zero
+	sltu $t4, $t4, $t2
+	bne  $t4, $zero, comoverflow
+	
+nao_overflow:
+	add  $t3, $t1, $t2   
+	li   $v0, 1
+	move $a0, $t3
+	syscall
+	j    exit
+	
+comoverflow:
+	li   $v0, 4
+	la   $a0, aviso
+	syscall
+	
+exit:
+	li   $v0, 4
+	la   $a0, quebralinha
+	syscall
+	li   $v0, 10
+	syscall
+    

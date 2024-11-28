@@ -1,0 +1,28 @@
+.data
+maior: .asciiz "é maior"
+menor: .asciiz "é menor"
+.text
+
+main: 
+     
+    li $v0,5
+    syscall
+    move $t0,$v0
+
+    li $v0,5
+    syscall
+    move $t1,$v0
+
+    bgt	$t0,$t1, branchGreater
+    li $v0,4
+    la $a0, menor
+    syscall
+    
+    j exit
+    branchGreater:
+        li $v0,4
+        la $a0, maior
+        syscall
+    exit:
+        li $v0,10
+        syscall

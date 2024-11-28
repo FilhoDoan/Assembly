@@ -1,0 +1,44 @@
+contaBits:
+    # Inicializa o contador de bits em $v0
+    li $v0, 0
+
+    # Inicializa o máscara com o bit menos significativo
+    li $t1, 1
+
+    # Inicializa o contador de iterações em 0
+    li $t2, 0
+
+    # Loop para percorrer os 32 bits
+    loop:
+        # Testa o bit atual usando AND
+        and $t3, $a0, $t1
+
+        # Se o bit for 1, incrementa o contador
+        bnez $t3, incrementa_contador
+
+        # Desloca a máscara para o próximo bit
+        sll $t1, $t1, 1
+
+        # Incrementa o contador de iterações
+        addi $t2, $t2, 1
+
+        # Verifica se todos os bits foram testados
+        bne $t2, 32, loop
+
+        # Retorna o contador de bits em $v0
+        jr $ra
+
+    incrementa_contador:
+        addi $v0, $v0, 1
+
+        # Desloca a máscara para o próximo bit
+        sll $t1, $t1, 1
+
+        # Incrementa o contador de iterações
+        addi $t2, $t2, 1
+
+        # Verifica se todos os bits foram testados
+        bne $t2, 32, loop
+
+        # Retorna o contador de bits em $v0
+        jr $ra

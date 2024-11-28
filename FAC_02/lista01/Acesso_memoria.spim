@@ -1,0 +1,27 @@
+    # endereco da base a no $s0
+    # A[i] =  A [j] + N     
+
+    #i
+    li $v0, 5
+    syscall
+    move $s1,$v0
+
+    #s1 = i
+
+    #j
+    li $v0, 5
+    syscall
+    move $s2, $v0
+
+    #s2 = j
+
+    #N
+    li $v0, 5
+    syscall
+    move $s3, $v0
+
+    #s3 = N
+    mul $t1,$s2,4  #$t1 = j*4
+
+    lw $t0, 0($s0) #$t0 = A[0]     
+

@@ -1,0 +1,44 @@
+.data
+    input_prompt: .asciiz "Digite o valor de X: "
+    input_prompt2: .asciiz "Digite o valor de Y: "
+    output_true: .asciiz "2\n"
+    output_false: .asciiz "1\n"
+    new_line: .asciiz "\n"
+
+.text
+    main:
+        # Leia o número de operações (N)
+        li $v0, 5
+        syscall
+        move $t0, $v0 # $t0 = N
+
+    loop:
+        # Leia o valor de X
+        li $v0, 5
+        syscall
+        move $t1, $v0 # $t1 = X
+
+        # Leia o valor de Y
+        li $v0, 5
+        syscall
+        move $t2, $v0 # $t2 = Y
+
+        # Calcule o XOR
+        beq $t1, $t2, false
+        li $v0, 4
+        la $a0, output_true
+        syscall
+        j end_loop
+
+    false:
+        li $v0, 4
+        la $a0, output_false
+        syscall
+
+    end_loop:
+        addi $t0, $t0, -1 # Decrementa N
+        bnez $t0, loop # Repita até que N seja zero
+
+        # Saída
+        li $v0, 10
+        syscall

@@ -1,0 +1,44 @@
+elemDistintos:
+    # Verifica se a quantidade de elementos é 0 ou 1, pois nesse caso todos são distintos
+    beq $a1, $zero, retorno
+    beq $a1, 1, retorno
+
+    # Inicializa o contador de elementos distintos em $v0
+    li $v0, 1
+
+    # Inicializa o registrador de comparação com o primeiro elemento do vetor
+    lw $t0, 0($a0)
+
+    # Loop para percorrer o vetor e contar os elementos distintos
+    loop:
+        # Incrementa o endereço do vetor para acessar o próximo elemento
+        addi $a0, $a0, 4
+
+        # Decrementa a quantidade de elementos
+        addi $a1, $a1, -1
+
+        # Se a quantidade de elementos chegar a 0, retorna
+        beqz $a1, retorno
+
+        # Carrega o próximo elemento do vetor
+        lw $t1, 0($a0)
+
+        # Compara o elemento atual com o elemento anterior
+        bne $t1, $t0, incrementa_contador
+
+        # Se forem iguais, continua para o próximo elemento
+        j loop
+
+    incrementa_contador:
+        # Incrementa o contador de elementos distintos
+        addi $v0, $v0, 1
+
+        # Atualiza o registrador de comparação com o novo elemento
+        move $t0, $t1
+
+        # Continua para o próximo elemento
+        j loop
+
+    retorno:
+        # Retorna a quantidade de elementos distintos em $v0
+        jr $ra

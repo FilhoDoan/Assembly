@@ -1,0 +1,40 @@
+multfac:
+    addi $t2, $zero, 0        # Inicializa o contador com 0
+    addi $t0, $zero, 0        # Inicializa o resultado (low) com 0
+    addi $t1, $a1, 0          # Inicializa o multiplicador com o valor do registrador $a1
+    addi $t5, $zero, 0        # Inicializa um contador com 0
+    addi $t6, $zero, 32       # Define o limite do loop como 32 bits
+
+Loop:
+    andi $t4, $t0, 1          # Verifica o último bit do multiplicando (registrador $t0)
+    andi $t3, $t1, 1          # Verifica o último bit do multiplicador (registrador $t1)
+    xor  $t7, $t3, $t2        # Verifica se os bits são diferentes
+
+    beq  $t7, $zero, Label1   # Se os bits forem iguais, vai para Label1
+    beq  $t2, $zero, Subtract # Se o bit do multiplicador for 0, subtrai
+
+    add  $t0, $t0, $a0        # Se não entrar nas condições anteriores, soma
+
+    j    Label1               # Vai para Label1
+
+Subtract:
+    sub  $t0, $t0, $a0        # Subtrai o multiplicando pelo multiplicador
+
+Label1:
+    andi $t4, $t0, 1          # Verifica o último bit do multiplicando (registrador $t0)
+    andi $t3, $t1, 1          # Verifica o último bit do multiplicador (registrador $t1)
+    sra  $t0, $t0, 1          # Shift right aritmético no multiplicando
+    srl  $t1, $t1, 1          # Shift right lógico no multiplicador
+    add  $t2, $t3, $zero      # Atualiza o contador $t2 com o último bit do multiplicador
+
+    sll  $t4, $t4, 31         # Prepara o último bit do multiplicando para ser adicionado no multiplicador
+    add  $t1, $t1, $t4        # Adiciona o último bit do multiplicando no multiplicador
+
+    addi $t5, $t5, 1          # Incrementa o contador de bits processados
+    slt  $t8, $t5, $t6        # Verifica se ainda falta processar bits
+
+    bne  $t8, $zero, Loop     # Se ainda faltarem bits, volta para o início do loop
+
+    mthi $t0                  # Armazena o resultado final no registrador hi
+    mtlo $t1                  # Armazena o resultado final no registrador lo
+    jr   $ra                  # Retorna ao endereço de retorno
