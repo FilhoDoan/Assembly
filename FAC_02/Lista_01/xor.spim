@@ -1,0 +1,50 @@
+.data
+    buffer: .space 40
+    ln: .asciiz "\n"
+
+.text
+
+main: 
+    li $v0,5
+    syscall
+    move $t0, $v0
+    
+
+loop:
+    beq $t0, $zero, encerrar
+    addi $t0, $t0,-1
+
+    li $v0, 8
+    la $a0, buffer
+    syscall
+
+    lb $t1, 0($a0)
+    lb $t2, 2($a0)
+
+    bne $t1, $t2, verdadeiro
+
+    li $v0, 1
+    li $a0, 1
+    syscall
+
+    li $v0, 4
+    la $a0, ln
+    syscall
+
+
+    j loop
+
+verdadeiro: 
+    li $v0, 1
+    li $a0, 2
+    syscall
+
+    li $v0, 4
+    la $a0, ln
+    syscall
+
+    j loop
+
+encerrar: 
+    li $v0, 10 
+    syscall
